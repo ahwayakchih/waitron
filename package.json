@@ -1,7 +1,7 @@
 {
   "name": "waitron",
   "version": "1.0.0",
-  "description": "Monster child of Promise, callback and semaphore",
+  "description": "Monster child of callback and semaphore without any promises",
   "keywords": "semaphore, callback, parallel",
   "main": "index.js",
   "scripts": {
