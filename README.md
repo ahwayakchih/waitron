@@ -37,9 +37,9 @@ Example use:
 ```javascript
 // Somewhere inside rocket-manned module...
 process.on('prepare-for-launch', hold => {
-	// Fastening seatbelts is asynchronous, we have to wait
-	// until everyone is done.
-	pilots.fastenSeatbelts(hold());
+  // Fastening seatbelts is asynchronous, we have to wait
+  // until everyone is done.
+  pilots.fastenSeatbelts(hold());
   passengers.fastenSeatbelts(hold());
 });
 
@@ -53,10 +53,10 @@ process.on('prepare-for-launch', hold => {
 var launcher = new Waitron();
 process.emit('prepare-for-launch', launcher.hold);
 launcher.go(null, errors => {
-	// If everything is OK, launch!
-	if (!errors) {
-		start();
-	}
+  // If everything is OK, launch!
+  if (!errors) {
+    start();
+  }
 });
 ```
 
