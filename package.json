@@ -1,0 +1,44 @@
+{
+  "name": "waitron",
+  "version": "1.0.0",
+  "description": "Monster child of Promise, callback and semaphore",
+  "keywords": "semaphore, callback, parallel",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape ./test/index.js | ./node_modules/.bin/tap-diff",
+    "benchmarks": "(INFO=1 npm run -s benchmark0holders && npm run -s benchmark5holders && npm run -s benchmark10holders) > ./reports/benchmarks.txt && (./node_modules/.bin/opener ./reports/benchmarks.txt &)",
+    "benchmark0holders": "HOLDERS=0 node ./benchmarks/index.js",
+    "benchmark5holders": "HOLDERS=5 node ./benchmarks/index.js",
+    "benchmark10holders": "HOLDERS=10 node ./benchmarks/index.js",
+    "doc": "./node_modules/.bin/jsdoc -d reports/jsdoc -c tools/jsdoc.json --readme README.md -r index.js && (./node_modules/.bin/opener ./reports/jsdoc/index.html &)",
+    "checkCoverage": "node --harmony-proxies ./node_modules/.bin/istanbul cover --dir reports/coverage ./node_modules/.bin/tape -- ./test/index.js > /dev/null && (./node_modules/.bin/opener ./reports/coverage/lcov-report/index.html &)",
+    "checkMemory": "mkdir -p reports && node --expose-gc ./test/memory.js && echo 'heapsnapshots created in ./reports directory'"
+  },
+  "engines": {
+    "node": ">=4.4"
+  },
+  "devDependencies": {
+    "async": "^2.0.0-rc.6",
+    "beautify-benchmark": "git+https://github.com/ahwayakchih/beautify-benchmark.git",
+    "benchmark": "^2.1.0",
+    "docdash": "^0.4.0",
+    "eslint": "^3.0.0",
+    "istanbul": "^0.4.4",
+    "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
+    "opener": "^1.4.1",
+    "tap-diff": "^0.1.1",
+    "tape": "^4.6.0",
+    "tape-catch": "^1.0.6"
+  },
+  "homepage": "https://github.com/ahwayakchih/waitron",
+  "author": "Marcin Konicki <ahwayakchih@neoni.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahwayakchih/waitron/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ahwayakchih/waitron.git"
+  },
+  "tonicExample": "const waitron = require('waitron');"
+}
