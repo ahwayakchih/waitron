@@ -70,27 +70,27 @@ You can re-run them locally with: `npm run benchmarks`.
 Running on node v7.0.0 with Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz x 4
 
 Testing:
-- async   v2.1.1 https://github.com/caolan/async#readme  
+- async   v2.1.2 https://github.com/caolan/async#readme  
 - waitron v1.0.1 https://github.com/ahwayakchih/waitron  
 
 Test with 0 holders
 
   2 tests completed.
 
-  waitron x 160,861 ops/sec ±1.01% (84 runs sampled)
-  async   x 141,013 ops/sec ±1.92% (85 runs sampled)
+  waitron x 163,335 ops/sec ±2.85% (83 runs sampled)
+  async   x 140,740 ops/sec ±1.87% (86 runs sampled)
 
 Test with 5 holders
 
   2 tests completed.
 
-  waitron x 107,276 ops/sec ±3.37% (84 runs sampled)
-  async   x  55,827 ops/sec ±1.34% (80 runs sampled)
+  waitron x 105,400 ops/sec ±3.47% (84 runs sampled)
+  async   x  58,494 ops/sec ±0.59% (81 runs sampled)
 
 Test with 10 holders
 
   2 tests completed.
 
-  waitron x 78,410 ops/sec ±2.66% (82 runs sampled)
-  async   x 36,877 ops/sec ±1.04% (81 runs sampled)
+  waitron x 78,015 ops/sec ±1.71% (79 runs sampled)
+  async   x 37,076 ops/sec ±1.57% (81 runs sampled)
 ```
