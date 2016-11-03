@@ -24,7 +24,7 @@ test.add('async', {
 
 		async.parallel(tasks, err => {
 			if (err) {
-				return deferred.reject(err);
+				console.error(err);
 			}
 
 			return deferred.resolve();
@@ -43,7 +43,7 @@ test.add('waitron', {
 
 		waitron.go(null, errs => {
 			if (errs && errs.length > 0) {
-				return deferred.reject(errs[0]);
+				console.error(errs[0]);
 			}
 
 			return deferred.resolve();
