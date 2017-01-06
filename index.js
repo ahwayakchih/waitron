@@ -41,73 +41,20 @@ function Waitron () {
 		return new Waitron();
 	}
 
-	const errors = [];
-	var tasks = new ToDoId();
-	var callback = null;
+	/**
+	 * @private
+	 */
+	this._tasks = new ToDoId();
 
 	/**
 	 * @private
 	 */
-	function go (todo, id, err, whenDone) {
-		// Mark id as done only if whole thing was not finished yet
-		const notDone = todo && todo.done(id);
-
-		if (err && tasks) {
-			var error = err instanceof Error ? err : new Error(err);
-			error.id = id;
-			errors.push(error);
-		}
-
-		// Set callback only when there was none before
-		if (whenDone && whenDone instanceof Function && !callback) {
-			callback = whenDone;
-		}
-
-		// Return early if not all tasks are done yet
-		if (notDone) {
-			return false;
-		}
-
-		// Make sure it cannot be changed before `callback` is called
-		tasks = null;
-
-		// Keep errors, just in case something calls `go` again
-		// with new callback.
-
-		if (callback) {
-			// Cleanup callbacks before calling them,
-			// so we're not go looping if any of them triggers `done` again.
-			var listener = callback;
-			callback = null;
-
-			setImmediate(() => listener(errors && errors.length ? errors : null));
-		}
-
-		return true;
-	}
+	this._errors = undefined;
 
 	/**
 	 * @private
 	 */
-	function hold () {
-		const list = tasks;
-		var id;
-
-		if (!list) {
-			id = new Error('Waitron already finished');
-			// Always pass cb here, because it will not be stored after waitron is finished.
-			return (err, cb) => go(null, 0, err ? appendError(id, err) : id, cb);
-		}
-
-		id = list.todo();
-		if (id instanceof Error) {
-			// Pass cb only if first task was already done, to make sure we will not set callback for later task.
-			return (err, cb) => go(list, 0, err ? appendError(id, err) : id, list.done() & 1 ? null : cb);
-		}
-
-		// Pass cb only for first "lock".
-		return (err, cb) => go(list, id, err, id === 1 && cb);
-	}
+	this._callback = undefined;
 
 	/**
 	 * Release "lock" bound to this function.
@@ -130,7 +77,8 @@ function Waitron () {
 	 * @function
 	 * @return {module:Waitron~go}
 	 */
-	this.hold = hold;
+	// bind undefined seems to give better (faster) results than bind this: https://github.com/nodejs/node/pull/6533#discussion_r93454731
+	this.hold = hold.bind(undefined, this);
 
 	/**
 	 * Release initial lock.
@@ -141,7 +89,85 @@ function Waitron () {
 	 * @param {Function} callback   Will be called once all "locks" are released
 	 * @return {boolean} `true` if no more "locks" are held
 	 */
-	this.go = hold();
+	this.go = hold(this);
+}
+
+/**
+ * @private
+ */
+function go (waitron, id, err, whenDone) {
+	const list = waitron._tasks;
+	var error = list && err;
+
+	if (id instanceof Error) {
+		error = error ? appendError(id, error) : id;
+		id = 0;
+	}
+
+	if (error) {
+		if (!(error instanceof Error)) {
+			error = new Error(error);
+		}
+		error.id = id;
+
+		if (!waitron._errors) {
+			waitron._errors = [];
+		}
+
+		waitron._errors.push(error);
+	}
+
+	// Mark id as done only if whole thing was not finished yet
+	const notDone = list && list.done(id);
+
+	// Set callback if any of is true:
+	// - waitron was already done
+	// - initial task is already done (which means it already had a chance to setup a callback but did not want to)
+	// - it is a callback for initial task
+	// ... AND callback was not set yet.
+	if ((!list || notDone & 1 === 0 || id === 1) && whenDone && whenDone instanceof Function && !waitron._callback) {
+		waitron._callback = whenDone;
+	}
+
+	// Return early if not all tasks are done yet
+	if (notDone) {
+		return false;
+	}
+
+	// Make sure it cannot be changed before `callback` is called
+	waitron._tasks = null;
+
+	// Keep errors, just in case something calls `go` again
+	// with new callback.
+
+	if (waitron._callback) {
+		// Cleanup callbacks before calling them,
+		// so we're not go looping if any of them triggers `done` again.
+		var listener = waitron._callback;
+		waitron._callback = null;
+
+		error = waitron._errors;
+		setImmediate(() => listener(error && error.length ? error : null));
+	}
+
+	return true;
+}
+
+/**
+ * @private
+ */
+function hold (waitron) {
+	const id = waitron._tasks ? waitron._tasks.todo() : new Error('Waitron already finished');
+
+	// bind in node 7.x is now faster than inline closures: https://github.com/nodejs/readable-stream/pull/253#issuecomment-270416143
+	return release.bind(undefined, waitron, id);
+}
+
+/**
+ * @private
+ */
+function release (waitron, id, err, cb) {
+	return go(waitron, id, err, cb);
 }
 
 /**
