@@ -1,7 +1,7 @@
 waitron
 =======
 
-Waitron provides a kind of asynchronous-semaphore-like like functionality ([Asynchronous_semaphore](https://en.wikipedia.org/wiki/Asynchronous_semaphore)): it creates an object through which asynchrounous operations can let others know that they need to "hold" on for them, and then when they can "go" on.
+Waitron provides a kind of asynchronous-semaphore-like like functionality ([Asynchronous_semaphore](https://en.wikipedia.org/wiki/Asynchronous_semaphore)): it creates an object through which asynchronous operations can let others know that they need to "hold" on for them, and then when they can "go" on.
 
 With each call to `hold` method, caller marks object as "locked" and gets a function that, when called, will release that lock.
 Calling `go` will start waiting for all "locks" to be released.
