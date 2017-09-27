@@ -67,7 +67,7 @@ These benchmarks are just to make sure that working with Waitron is not slower (
 You can re-run them locally with: `npm run benchmarks`.
 
 ```markdown
-Running on node v8.1.4 with Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz x 4
+Running on node v8.5.0 with Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz x 4
 
 Testing:
 - async   v2.5.0 https://github.com/caolan/async         
@@ -77,27 +77,27 @@ Test with 0 holders
 
   2 tests completed.
 
-  async   x 221,084 ops/sec ±2.75% (80 runs sampled)
-  waitron x 186,298 ops/sec ±1.30% (80 runs sampled)
+  async   x 315,285 ops/sec ±2.55% (79 runs sampled)
+  waitron x 282,777 ops/sec ±1.21% (83 runs sampled)
 
 Test with 5 holders
 
   2 tests completed.
 
-  async   x 113,783 ops/sec ±3.92% (77 runs sampled)
-  waitron x 113,400 ops/sec ±0.30% (82 runs sampled)
+  async   x 150,159 ops/sec ±0.68% (80 runs sampled)
+  waitron x 148,890 ops/sec ±0.91% (84 runs sampled)
 
 Test with 10 holders
 
   2 tests completed.
 
-  waitron x 84,008 ops/sec ±3.23% (82 runs sampled)
-  async   x 80,010 ops/sec ±1.40% (83 runs sampled)
+  waitron x 106,964 ops/sec ±0.80% (84 runs sampled)
+  async   x  99,420 ops/sec ±0.53% (84 runs sampled)
 
 Test with 20 holders
 
   2 tests completed.
 
-  waitron x 53,674 ops/sec ±2.56% (83 runs sampled)
-  async   x 49,012 ops/sec ±2.47% (84 runs sampled)
+  waitron x 67,404 ops/sec ±0.59% (84 runs sampled)
+  async   x 61,691 ops/sec ±1.62% (84 runs sampled)
 ```
