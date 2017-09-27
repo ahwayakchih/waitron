@@ -77,27 +77,27 @@ Test with 0 holders
 
   2 tests completed.
 
-  async   x 315,285 ops/sec ±2.55% (79 runs sampled)
-  waitron x 282,777 ops/sec ±1.21% (83 runs sampled)
+  async   x 312,137 ops/sec ±0.62% (79 runs sampled)
+  waitron x 294,156 ops/sec ±1.97% (80 runs sampled)
 
 Test with 5 holders
 
   2 tests completed.
 
-  async   x 150,159 ops/sec ±0.68% (80 runs sampled)
-  waitron x 148,890 ops/sec ±0.91% (84 runs sampled)
+  waitron x 154,953 ops/sec ±0.86% (84 runs sampled)
+  async   x 148,717 ops/sec ±0.59% (81 runs sampled)
 
 Test with 10 holders
 
   2 tests completed.
 
-  waitron x 106,964 ops/sec ±0.80% (84 runs sampled)
-  async   x  99,420 ops/sec ±0.53% (84 runs sampled)
+  waitron x 108,835 ops/sec ±0.93% (84 runs sampled)
+  async   x  99,447 ops/sec ±1.66% (80 runs sampled)
 
 Test with 20 holders
 
   2 tests completed.
 
-  waitron x 67,404 ops/sec ±0.59% (84 runs sampled)
-  async   x 61,691 ops/sec ±1.62% (84 runs sampled)
+  waitron x 68,450 ops/sec ±0.55% (85 runs sampled)
+  async   x 62,343 ops/sec ±1.94% (85 runs sampled)
 ```
