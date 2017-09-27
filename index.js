@@ -120,7 +120,7 @@ function go (waitron, id, err, whenDone) {
 	// Mark id as done only if whole thing was not finished yet
 	const notDone = list && list.done(id);
 
-	// Set callback if any of is true:
+	// Set callback if any of these is true:
 	// - waitron was already done
 	// - initial task is already done (which means it already had a chance to setup a callback but did not want to)
 	// - it is a callback for initial task
@@ -160,14 +160,7 @@ function hold (waitron) {
 	const id = waitron._tasks ? waitron._tasks.todo() : new Error('Waitron already finished');
 
 	// bind in node 7.x is now faster than inline closures: https://github.com/nodejs/readable-stream/pull/253#issuecomment-270416143
-	return release.bind(undefined, waitron, id);
-}
-
-/**
- * @private
- */
-function release (waitron, id, err, cb) {
-	return go(waitron, id, err, cb);
+	return go.bind(undefined, waitron, id);
 }
 
 /**
