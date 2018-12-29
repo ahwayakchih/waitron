@@ -125,7 +125,7 @@ function go (waitron, id, err, whenDone) {
 	// - initial task is already done (which means it already had a chance to setup a callback but did not want to)
 	// - it is a callback for initial task
 	// ... AND callback was not set yet.
-	if ((!list || notDone & 1 === 0 || id === 1) && whenDone && whenDone instanceof Function && !waitron._callback) {
+	if (whenDone && (!list || notDone & 1 === 0 || id === 1) && whenDone instanceof Function && !waitron._callback) {
 		waitron._callback = whenDone;
 	}
 
@@ -147,7 +147,7 @@ function go (waitron, id, err, whenDone) {
 		waitron._callback = null;
 
 		error = waitron._errors;
-		setImmediate(() => listener(error && error.length ? error : null));
+		setImmediate(listener, error && error.length ? error : null);
 	}
 
 	return true;
