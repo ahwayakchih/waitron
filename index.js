@@ -94,6 +94,11 @@ function Waitron () {
 
 /**
  * @private
+ * @param {!Waitron}  waitron
+ * @param {!Number}   id
+ * @param {Error}     [err]
+ * @param {Function}  [whenDone]
+ * @return {Boolean}
  */
 function go (waitron, id, err, whenDone) {
 	const list = waitron._tasks;
@@ -155,6 +160,8 @@ function go (waitron, id, err, whenDone) {
 
 /**
  * @private
+ * @param {Waitron} waitron
+ * @return {Function}
  */
 function hold (waitron) {
 	const id = waitron._tasks ? waitron._tasks.todo() : new Error('Waitron already finished');
@@ -165,6 +172,9 @@ function hold (waitron) {
 
 /**
  * @private
+ * @param {!Error}       to
+ * @param {Error|String} err
+ * @return {Error} modified `to`
  */
 function appendError (to, err) {
 	if (!err) {

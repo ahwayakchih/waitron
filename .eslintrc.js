@@ -7,11 +7,10 @@
 module.exports = {
 	root: true,
 	parserOptions: {
-		ecmaVersion: 7,
+		ecmaVersion: 2018,
 		sourceType: 'module',
 		ecmaFeatures: {
-			impliedStrict: true,
-			experimentalObjectRestSpread: true
+			impliedStrict: true
 		}
 	},
 	env: {
@@ -204,6 +203,24 @@ module.exports = {
 		'no-this-before-super': 2,
 		'no-useless-constructor': 2,
 		'template-curly-spacing': 2,
-		'yield-star-spacing': [2, 'both']
+		'yield-star-spacing': [2, 'both'],
+
+		// JSDoc
+		'valid-jsdoc': ["error", {
+			requireReturn: false,
+			requireParamType: true,
+			requireReturnType: true,
+			requireParamDescription: false,
+			requireReturnDescription: false
+		}],
+		'require-jsdoc': ["error", {
+			require: {
+				FunctionDeclaration: true,
+				ClassDeclaration: true,
+				MethodDefinition: true,
+				ArrowFunctionExpression: false,
+				FunctionExpression: false
+			}
+		}]
 	}
 };
