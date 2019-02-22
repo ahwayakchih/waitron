@@ -3,6 +3,7 @@ const results   = require('beautify-benchmark');
 const os        = require('os');
 
 const async     = require('async');
+const neoasync  = require('neo-async');
 const Waitron   = require('../index.js');
 
 if (process.env.INFO) {
@@ -23,6 +24,25 @@ test.add('async', {
 		}
 
 		async.parallel(tasks, err => {
+			if (err) {
+				console.error(err);
+			}
+
+			return deferred.resolve();
+		});
+	}
+});
+
+test.add('neo-async', {
+	defer: true,
+	fn   : function (deferred) {
+		var tasks = [];
+
+		for (var i = holders; i >= 0; i--) {
+			tasks.push(fakeTask());
+		}
+
+		neoasync.parallel(tasks, err => {
 			if (err) {
 				console.error(err);
 			}
@@ -85,11 +105,16 @@ function logInfo () {
 	infoAsync.version = 'v' + infoAsync.version;
 	columnsUpdate(columns, infoAsync);
 
+	var infoNeoAsync = require('neo-async/package.json');
+	infoNeoAsync.version = 'v' + infoNeoAsync.version;
+	columnsUpdate(columns, infoNeoAsync);
+
 	var infoWaitron = require('../package.json');
 	infoWaitron.version = 'v' + infoWaitron.version;
 	columnsUpdate(columns, infoWaitron);
 
 	console.log('- ' + columnsText(columns, infoAsync));
+	console.log('- ' + columnsText(columns, infoNeoAsync));
 	console.log('- ' + columnsText(columns, infoWaitron));
 	console.log('');
 
