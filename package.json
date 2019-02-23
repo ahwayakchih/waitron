@@ -5,23 +5,33 @@
   "keywords": "semaphore, callback, parallel",
   "main": "index.js",
   "scripts": {
-    "test": "tape ./test/index.js | ./node_modules/.bin/tap-diff",
-    "benchmarks": "(INFO=1 npm run -s benchmark0holders && npm run -s benchmark5holders && npm run -s benchmark15holders && npm run -s benchmark29holders) > ./reports/benchmarks.txt && (./node_modules/.bin/opener ./reports/benchmarks.txt &)",
+    "test": "tape ./test/index.js | tap-diff",
+    "prepublishOnly": "npm run -s test && npm run -s checkStyle",
+    "benchmarks": "(INFO=1 npm run -s benchmark0holders && npm run -s benchmark5holders && npm run -s benchmark15holders && npm run -s benchmark29holders) > ./reports/benchmarks.txt",
     "benchmark0holders": "HOLDERS=0 node ./benchmarks/index.js",
     "benchmark5holders": "HOLDERS=5 node ./benchmarks/index.js",
     "benchmark15holders": "HOLDERS=15 node ./benchmarks/index.js",
     "benchmark29holders": "HOLDERS=29 node ./benchmarks/index.js",
-    "doc": "jsdoc -d reports/jsdoc -c tools/jsdoc.json --readme README.md -r index.js && (./node_modules/.bin/opener ./reports/jsdoc/index.html &)",
-    "checkStyle": "eslint index.js lib/*.js > ./reports/eslint.txt",
-    "checkCoverage": "rm -rf ./reports/coverage && c8 --clean --report --reporter text --reporter html --reports-dir reports/coverage node --allow-natives-syntax ./test/index.js && mv ./coverage ./reports/coverage && (./node_modules/.bin/opener ./reports/coverage/index.html &)",
-    "checkMemory": "mkdir -p reports && node --expose-gc ./test/memory.js && echo 'heapsnapshots created in ./reports directory'"
+    "postbenchmarks": "cat ./reports/benchmarks.txt && echo '' && echo 'Benchmark results saved to `reports/benchmarks.txt`'",
+    "predoc": "rm -rf ./reports/jsdoc",
+    "doc": "jsdoc -d reports/jsdoc -c tools/jsdoc.json --readme README.md -r index.js",
+    "postdoc": "echo 'Documentation available at `reports/jsdoc/index.html`'",
+    "precheckStyle": "rm ./reports/eslint.txt",
+    "checkStyle": "eslint index.js > ./reports/eslint.txt",
+    "postcheckStyle": "cat ./reports/eslint.txt && echo 'ESLint results saved to `reports/eslint.txt`'",
+    "precheckCoverage": "rm -rf ./reports/coverage",
+    "checkCoverage": "c8 --clean --report --reporter text --reporter html --reports-dir reports/coverage node --allow-natives-syntax ./test/index.js",
+    "postcheckCoverage": "mv ./coverage ./reports/coverage && echo Coverage results saved to '`reports/coverage/index.html`'",
+    "precheckMemory": "rm -rf ./reports/*.heapsnapshot",
+    "checkMemory": "node --expose-gc ./test/memory.js",
+    "postcheckMemory": "echo 'heapsnapshots created in `reports` directory'"
   },
   "engines": {
     "node": ">=4.4"
   },
   "devDependencies": {
     "async": "^2.6.2",
-    "beautify-benchmark": "git+https://github.com/ahwayakchih/beautify-benchmark.git",
+    "beautify-benchmark": "github:ahwayakchih/beautify-benchmark",
     "benchmark": "^2.1.4",
     "c8": "^3.4.0",
     "docdash": "^1.0.3",
@@ -29,13 +39,12 @@
     "heapdump": "^0.3.12",
     "jsdoc": "github:jsdoc3/jsdoc",
     "neo-async": "^2.6.0",
-    "opener": "^1.5.1",
     "tap-diff": "^0.1.1",
     "tape": "^4.10.1",
     "tape-catch": "^1.0.6"
   },
   "homepage": "https://github.com/ahwayakchih/waitron",
-  "author": "Marcin Konicki <ahwayakchih@neoni.net>",
+  "author": "Marcin Konicki (https://ahwayakchih.neoni.net)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ahwayakchih/waitron/issues"

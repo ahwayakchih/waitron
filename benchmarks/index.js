@@ -95,7 +95,18 @@ test.run({
  * @private
  */
 function logInfo () {
-	console.log(`Running on node ${process.version} with ${os.cpus()[0].model} x ${os.cpus().length}`);
+	var docker = (function checkDocker () {
+		const fs = require('fs');
+		try {
+			return fs.readFileSync('/proc/self/cgroup', 'utf8').indexOf('/docker/') !== -1
+				&& (fs.readFileSync('/etc/os-release', 'utf8').match(/PRETTY_NAME="([^"]+)"/) || [,'unknown'])[1]
+		}
+		catch (e) {
+			return false;
+		}
+	})();
+	var where = docker ? `inside Docker (${docker})` : `natively (${os.release()})`;
+	console.log(`Running ${where} with Node ${process.version} and ${os.cpus()[0].model} x ${os.cpus().length}`);
 	console.log('');
 	console.log('Testing:');
 
