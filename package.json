@@ -21,26 +21,22 @@
     "postcheckStyle": "cat ./reports/eslint.txt && echo 'ESLint results saved to `reports/eslint.txt`'",
     "precheckCoverage": "rm -rf ./reports/coverage",
     "checkCoverage": "c8 --clean --report --reporter text --reporter html --reports-dir reports/coverage node --allow-natives-syntax ./test/index.js",
-    "postcheckCoverage": "mv ./coverage ./reports/coverage && echo Coverage results saved to '`reports/coverage/index.html`'",
-    "precheckMemory": "rm -rf ./reports/*.heapsnapshot",
-    "checkMemory": "node --expose-gc ./test/memory.js",
-    "postcheckMemory": "echo 'heapsnapshots created in `reports` directory'"
+    "postcheckCoverage": "mv ./coverage ./reports/coverage && echo Coverage results saved to '`reports/coverage/index.html`'"
   },
   "engines": {
     "node": ">=4.4"
   },
   "devDependencies": {
-    "async": "^2.6.2",
+    "async": "^3.1.0",
     "beautify-benchmark": "github:ahwayakchih/beautify-benchmark",
     "benchmark": "^2.1.4",
-    "c8": "^3.4.0",
-    "docdash": "^1.0.3",
-    "eslint": "^5.14.1",
-    "heapdump": "^0.3.12",
-    "jsdoc": "github:jsdoc3/jsdoc",
-    "neo-async": "^2.6.0",
+    "c8": "^5.0.4",
+    "docdash": "^1.1.1",
+    "eslint": "^6.4.0",
+    "jsdoc": "^3.6.3",
+    "neo-async": "^2.6.1",
     "tap-diff": "^0.1.1",
-    "tape": "^4.10.1",
+    "tape": "^4.11.0",
     "tape-catch": "^1.0.6"
   },
   "homepage": "https://github.com/ahwayakchih/waitron",
