@@ -12,7 +12,13 @@ const poolOfWaitrons = createPoolOf(Waitron);
 const poolOfDelays = createPoolOf(WaitronDelay);
 
 /**
- * @exports getWaitron
+ * @module Waitron
+ */
+
+/**
+ * Prepare and return a Waitron object.
+ *
+ * @return {module:Waitron~Waitron}
  */
 module.exports = function getWaitron () {
 	var w = poolOfWaitrons.get();
@@ -30,14 +36,15 @@ module.exports = function getWaitron () {
  * It starts "delayed", with initial `hold` called. To remove that "delay", call the `go` method.
  *
  * @example
- * var launcher = new Waitron();
+ * const waitron = require('waitron').get;
+ * var launcher = waitron();
  * setTimeout(launcher.hold(), 100);
  * setTimeout(launcher.hold(), 200);
  * launcher.go(null, errors => {
  *     // We're here after 200 milliseconds - both delays were removed
  * });
  *
- * @constructor
+ * @class
  */
 function Waitron () {
 	this[POOL_NEXT] = null;
@@ -71,9 +78,10 @@ function Waitron () {
 	 * Called after each delay is removed.
 	 *
 	 * @private
-	 * @param {WaitronDelay} delay
+	 * @param {module:Waitron~WaitronDelay} delay
 	 * @param {bigint}       startedBy
 	 * @param {Error}        [error]
+	 * @return {boolean} `true` if delay could be released
 	 */
 	var onEachRelease = (delay, startedBy, error) => {
 		if (startedBy !== id) {
@@ -125,9 +133,16 @@ function Waitron () {
 	};
 
 	/**
+	 * A function that, once called, will release it's hold on Waitron.
+	 *
+	 * @callback module:Waitron~go
+	 * @see {@link module:Waitron~Waitron#hold}
+	 * @param {Error} error
+	 */
+
+	/**
 	 * Delays waitron until returned function is called.
 	 *
-	 * @function
 	 * @return {module:Waitron~go}
 	 */
 	this.hold = () => {
@@ -142,8 +157,6 @@ function Waitron () {
 	/**
 	 * Stop the initial delay.
 	 *
-	 * @type {module:Waitron~go}
-	 * @function
 	 * @param {Error}    err        Set error, if needed
 	 * @param {Function} callback   Will be called once all "delays" are gone
 	 * @return {boolean} `false` if called on uninitialized Waitron
@@ -161,12 +174,19 @@ function Waitron () {
 
 /**
  * Used when `hold` is called after Waitron was finished.
+ *
  * @private
  */
 function noop () {
 	// Function intentionally left empty.
 }
 
+/**
+ * Object used to delay Waitron.
+ *
+ * @class
+ * @private
+ */
 function WaitronDelay () {
 	this[POOL_NEXT] = null;
 
