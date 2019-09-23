@@ -34,6 +34,8 @@ npm install https://github.com/ahwayakchih/waitron
 Example use:
 
 ```javascript
+const waitron = require('waitron');
+
 // Somewhere inside rocket-manned module...
 process.on('prepare-for-launch', hold => {
   // Fastening seatbelts is asynchronous, we have to wait
@@ -49,7 +51,7 @@ process.on('prepare-for-launch', hold => {
 });
 
 // Somewhere in command center...
-var launcher = new Waitron();
+var launcher = waitron();
 process.emit('prepare-for-launch', launcher.hold);
 var selfTest = launcher.hold();
 selfTest() && launcher.go(null, errors => {

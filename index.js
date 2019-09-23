@@ -36,7 +36,7 @@ module.exports = function getWaitron () {
  * It starts "delayed", with initial `hold` called. To remove that "delay", call the `go` method.
  *
  * @example
- * const waitron = require('waitron').get;
+ * const waitron = require('waitron');
  * var launcher = waitron();
  * setTimeout(launcher.hold(), 100);
  * setTimeout(launcher.hold(), 200);
