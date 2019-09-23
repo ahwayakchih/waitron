@@ -63,7 +63,7 @@ selfTest() && launcher.go(null, errors => {
 
 ## Benchmarks
 
-These benchmarks are just to make sure that working with Waitron is not slower (actually it should be faster, as it does less things for you) than working with [`async.parallel`](https://github.com/caolan/async). Both modules provide different functionality, so they shouldn't be evaluated solely by results of these benchmarks.
+These benchmarks are just to make sure that working with Waitron is not much slower than working with [`async.parallel`](https://github.com/caolan/async). Both modules provide different functionality, so they shouldn't be evaluated solely by results of these benchmarks.
 You can re-run them locally with: `npm run benchmarks`.
 
 ```markdown
