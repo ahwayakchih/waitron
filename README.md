@@ -1,20 +1,19 @@
 waitron
 =======
 
-Waitron provides a kind of asynchronous-semaphore-like like functionality ([Asynchronous_semaphore](https://en.wikipedia.org/wiki/Asynchronous_semaphore)): it creates an object through which asynchronous operations can let others know that they need to "hold" on for them, and then when they can "go" on.
+Waitron provides a kind of asynchronous-semaphore-like like functionality ([Asynchronous_semaphore](https://en.wikipedia.org/wiki/Asynchronous_semaphore)): it creates an object through which asynchronous operations can let others know that they need to "hold on" for them, until they can "go" on.
 
-With each call to `hold` method, caller marks object as "locked" and gets a function that, when called, will release that lock.
-Calling `go` will start waiting for all "locks" to be released.
-Once all "locks" are released, no more "locks" can be acquired. Released "locks" cannot be "locked" again.
+With each call to `hold` method, caller marks object as "delayed" and gets a function that, when called, will finish that "delay".
+Calling `go` will remove the initial "delay" and wait for any other "delays" before calling back.
+Once all "delays" are finished, no more can be created (well... they can, they just won't delay anything).
 
-It allows to start multiple asynchronous functions and wait for all of them to finish before continuing. It is similar to [`async.parallel`](https://github.com/caolan/async), but also differs quite a bit:
+It allows to start multiple asynchronous and synchronous functions and wait for all of them to finish before continuing. It is similar to [`async.parallel`](https://github.com/caolan/async), but also differs quite a bit:
 
 - it does not call/execute those functions, it merely provides simple way for them to mark when they're done;
 - it waits for all of them to call back and gathers all errors before calling back (`async.parallel` calls back after first error);
-- it does not gather and pass results when calling back;
-- number of "locks" is limited by the number of bits that are available for bitwise operations in JavaScript runtime, which means that currently only 30 "locks" can be acquired (additional 2 are for internal use).
+- it does not gather and pass any results from those functions when calling back;
 
-Unless you need these, `async.parallel` might be a better choice for you.
+Unless you need these, `async.parallel` might be a better choice for you. Or maybe even [`neo-async.parallel`](https://github.com/suguru03/neo-async), which seems to be even faster.
 
 
 ## Installation
@@ -45,14 +44,15 @@ process.on('prepare-for-launch', hold => {
 
 // Somewhere else inside rocket-log module...
 process.on('prepare-for-launch', hold => {
-  // We do not need to delay anything
+  // We do not need to delay anything.
   console.log('Preparing for launch');
 });
 
 // Somewhere in command center...
 var launcher = new Waitron();
 process.emit('prepare-for-launch', launcher.hold);
-launcher.go(null, errors => {
+var selfTest = launcher.hold();
+selfTest() && launcher.go(null, errors => {
   // If everything is OK, launch!
   if (!errors) {
     start();
@@ -72,37 +72,37 @@ Running inside Docker (Alpine Linux v3.10) with Node v12.10.0 and Intel(R) Core(
 Testing:
 - async     v3.1.0 https://caolan.github.io/async/         
 - neo-async v2.6.1 https://github.com/suguru03/neo-async   
-- waitron   v1.0.4 https://github.com/ahwayakchih/waitron  
+- waitron   v2.0.0 https://github.com/ahwayakchih/waitron  
 
 Test with 0 holders
 
   3 tests completed.
 
-  neo-async x 360,445 ops/sec ±1.52% (76 runs sampled)
-  async     x 327,539 ops/sec ±1.42% (76 runs sampled)
-  waitron   x 259,527 ops/sec ±1.46% (73 runs sampled)
+  neo-async x 337,702 ops/sec ±1.03% (77 runs sampled)
+  waitron   x 323,296 ops/sec ±1.26% (74 runs sampled)
+  async     x 309,637 ops/sec ±1.72% (76 runs sampled)
 
 Test with 5 holders
 
   3 tests completed.
 
-  neo-async x 228,425 ops/sec ±1.30% (77 runs sampled)
-  async     x 186,580 ops/sec ±1.48% (77 runs sampled)
-  waitron   x 175,470 ops/sec ±1.61% (71 runs sampled)
+  neo-async x 225,758 ops/sec ±1.36% (80 runs sampled)
+  waitron   x 188,512 ops/sec ±1.24% (74 runs sampled)
+  async     x 183,181 ops/sec ±1.61% (76 runs sampled)
 
 Test with 15 holders
 
   3 tests completed.
 
-  neo-async x 133,081 ops/sec ±1.52% (77 runs sampled)
-  waitron   x 117,537 ops/sec ±1.66% (72 runs sampled)
-  async     x 102,126 ops/sec ±1.90% (75 runs sampled)
+  neo-async x 130,311 ops/sec ±1.40% (76 runs sampled)
+  waitron   x 121,419 ops/sec ±1.48% (74 runs sampled)
+  async     x 101,664 ops/sec ±1.73% (78 runs sampled)
 
 Test with 29 holders
 
   3 tests completed.
 
-  neo-async x 82,433 ops/sec ±1.37% (77 runs sampled)
-  waitron   x 79,799 ops/sec ±1.37% (83 runs sampled)
-  async     x 65,931 ops/sec ±1.87% (79 runs sampled)
+  neo-async x 82,468 ops/sec ±1.18% (79 runs sampled)
+  waitron   x 76,747 ops/sec ±1.46% (73 runs sampled)
+  async     x 63,677 ops/sec ±1.87% (79 runs sampled)
 ```

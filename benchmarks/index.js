@@ -4,7 +4,7 @@ const os        = require('os');
 
 const async     = require('async');
 const neoasync  = require('neo-async');
-const Waitron   = require('../index.js');
+const waitron   = require('../index.js');
 
 if (process.env.INFO) {
 	logInfo();
@@ -55,13 +55,13 @@ test.add('neo-async', {
 test.add('waitron', {
 	defer: true,
 	fn   : function (deferred) {
-		var waitron = new Waitron();
+		var delay = waitron();
 
 		for (var i = holders; i >= 0; i--) {
-			fakeTask()(waitron.hold());
+			fakeTask()(delay.hold());
 		}
 
-		waitron.go(null, errs => {
+		delay.go(null, errs => {
 			if (errs && errs.length > 0) {
 				console.error(errs[0]);
 			}

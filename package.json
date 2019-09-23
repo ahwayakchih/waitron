@@ -1,6 +1,6 @@
 {
   "name": "waitron",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Monster child of callback and semaphore without any promises",
   "keywords": "semaphore, callback, parallel",
   "main": "index.js",
