@@ -28,20 +28,23 @@ test('waitron asynchronicity', function testWaitronAsynchronicity (t) {
 	var called = 0;
 	var delay = waitron();
 
+	var firstDelayTime = 100;
+	var secondDelayTime = 200;
+
 	var release1 = delay.hold();
 	setTimeout(() => {
 		t.strictEqual(release1(), true, 'Release should return true if was not released before');
 		t.strictEqual(release1(), false, 'Second call to the same release should return false');
 		t.strictEqual(release1(), false, 'Multiple calls to the same release should return false');
-	}, 100);
+	}, firstDelayTime);
 
 	var release2 = delay.hold();
 	setTimeout(() => {
 		t.strictEqual(release2(), true, 'Release of second hold should return true');
 		t.strictEqual(release2(), false, 'Calling the same release again should return false');
-	}, 200);
+	}, secondDelayTime);
 
-	delay.go(null, (errors) => {
+	delay.go(null, errors => {
 		called++;
 		t.strictEqual(called, 1, 'Should call only after after everything is done');
 		t.strictEqual(errors, null, 'Should call without errors');
@@ -56,7 +59,7 @@ test('waitron safety', function testWaitronSafety (t) {
 	var count = 0;
 
 	var holders = [delay.hold(), delay.hold(), delay.hold()];
-	delay.go(null, (errors) => {
+	delay.go(null, errors => {
 		callbacks++;
 		t.strictEqual(errors, null, 'Should not have errors');
 

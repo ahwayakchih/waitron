@@ -117,7 +117,7 @@ function Waitron () {
 		whenDone = null;
 		poolOfWaitrons.put(this);
 		return true;
-	}
+	};
 
 	/**
 	 * Cleanup initial state, create initial delay.
@@ -203,7 +203,7 @@ function WaitronDelay () {
 		return this.end;
 	};
 
-	this.end = (error) => {
+	this.end = error => {
 		var callback = onEnd;
 		var id = started;
 
