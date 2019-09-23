@@ -13,15 +13,15 @@
     "benchmark15holders": "HOLDERS=15 node ./benchmarks/index.js",
     "benchmark29holders": "HOLDERS=29 node ./benchmarks/index.js",
     "postbenchmarks": "cat ./reports/benchmarks.txt && echo '' && echo 'Benchmark results saved to `reports/benchmarks.txt`'",
-    "predoc": "rm -rf ./reports/jsdoc",
-    "doc": "jsdoc -d reports/jsdoc -c tools/jsdoc.json --readme README.md -r index.js",
-    "postdoc": "echo 'Documentation available at `reports/jsdoc/index.html`'",
-    "precheckStyle": "rm ./reports/eslint.txt",
-    "checkStyle": "eslint index.js > ./reports/eslint.txt",
-    "postcheckStyle": "cat ./reports/eslint.txt && echo 'ESLint results saved to `reports/eslint.txt`'",
+    "precheckStyle": "rm -f ./reports/eslint.txt",
+    "checkStyle": "eslint index.js lib/** test/** > ./reports/eslint.txt || echo 'ESLint results saved to `reports/eslint.txt`' && cat ./reports/eslint.txt",
     "precheckCoverage": "rm -rf ./reports/coverage",
     "checkCoverage": "c8 --clean --report --reporter text --reporter html --reports-dir reports/coverage node --allow-natives-syntax ./test/index.js",
-    "postcheckCoverage": "mv ./coverage ./reports/coverage && echo Coverage results saved to '`reports/coverage/index.html`'"
+    "postcheckCoverage": "mv ./coverage ./reports/coverage && echo Coverage results saved to '`reports/coverage/index.html`'",
+    "predoc": "rm -rf ./reports/jsdoc",
+    "doc": "jsdoc -d reports/jsdoc -c .jsdoc.json --readme README.md -r *.js lib",
+    "postdoc": "echo 'Documentation available at `reports/jsdoc/index.html`'",
+    "checkAudit": "npm shrinkwrap && npm audit > ./reports/audit.log || cat ./reports/audit.log; rm npm-shrinkwrap.json"
   },
   "engines": {
     "node": ">=4.4"
