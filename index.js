@@ -168,7 +168,7 @@ function Waitron () {
 		}
 
 		whenDone = whenDone || callback;
-		return go && go(err) || false;
+		return go(err);
 	};
 }
 
