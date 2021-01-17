@@ -42,13 +42,14 @@ test('waitron asynchronicity', function testWaitronAsynchronicity (t) {
 	setTimeout(() => {
 		t.strictEqual(release2(), true, 'Release of second hold should return true');
 		t.strictEqual(release2(), false, 'Calling the same release again should return false');
+		// Call end only after all assertions are done, otherwise tape will error out.
+		t.end();
 	}, secondDelayTime);
 
 	delay.go(null, errors => {
 		called++;
 		t.strictEqual(called, 1, 'Should call only after after everything is done');
 		t.strictEqual(errors, null, 'Should call without errors');
-		t.end(errors);
 	});
 });
 
