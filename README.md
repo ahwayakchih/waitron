@@ -69,42 +69,42 @@ These benchmarks are just to make sure that working with Waitron is not much slo
 You can re-run them locally with: `npm run benchmarks`.
 
 ```markdown
-Running inside Docker (Alpine Linux v3.10) with Node v12.10.0 and Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz x 4
+Running inside container (Alpine Linux v3.13) with Node v15.6.0 and Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz x 2
 
 Testing:
-- async     v3.1.0 https://caolan.github.io/async/         
-- neo-async v2.6.1 https://github.com/suguru03/neo-async   
-- waitron   v2.0.0 https://github.com/ahwayakchih/waitron  
+- async     v3.2.0 https://caolan.github.io/async/         
+- neo-async v2.6.2 https://github.com/suguru03/neo-async   
+- waitron   v2.0.1 https://github.com/ahwayakchih/waitron  
 
 Test with 0 holders
 
   3 tests completed.
 
-  neo-async x 337,702 ops/sec ±1.03% (77 runs sampled)
-  waitron   x 323,296 ops/sec ±1.26% (74 runs sampled)
-  async     x 309,637 ops/sec ±1.72% (76 runs sampled)
+  neo-async x 239,486 ops/sec ±0.44% (80 runs sampled)
+  waitron   x 233,925 ops/sec ±0.46% (82 runs sampled)
+  async     x 216,026 ops/sec ±1.05% (78 runs sampled)
 
 Test with 5 holders
 
   3 tests completed.
 
-  neo-async x 225,758 ops/sec ±1.36% (80 runs sampled)
-  waitron   x 188,512 ops/sec ±1.24% (74 runs sampled)
-  async     x 183,181 ops/sec ±1.61% (76 runs sampled)
+  neo-async x 178,350 ops/sec ±0.42% (83 runs sampled)
+  waitron   x 163,394 ops/sec ±0.54% (83 runs sampled)
+  async     x 161,941 ops/sec ±1.15% (77 runs sampled)
 
 Test with 15 holders
 
   3 tests completed.
 
-  neo-async x 130,311 ops/sec ±1.40% (76 runs sampled)
-  waitron   x 121,419 ops/sec ±1.48% (74 runs sampled)
-  async     x 101,664 ops/sec ±1.73% (78 runs sampled)
+  waitron   x 123,423 ops/sec ±0.41% (83 runs sampled)
+  neo-async x 116,107 ops/sec ±0.64% (80 runs sampled)
+  async     x 108,130 ops/sec ±1.12% (80 runs sampled)
 
 Test with 29 holders
 
   3 tests completed.
 
-  neo-async x 82,468 ops/sec ±1.18% (79 runs sampled)
-  waitron   x 76,747 ops/sec ±1.46% (73 runs sampled)
-  async     x 63,677 ops/sec ±1.87% (79 runs sampled)
+  neo-async x 86,743 ops/sec ±0.45% (81 runs sampled)
+  waitron   x 85,469 ops/sec ±0.26% (81 runs sampled)
+  async     x 73,263 ops/sec ±1.44% (78 runs sampled)
 ```
