@@ -27,16 +27,16 @@
     "node": ">=4.4"
   },
   "devDependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.0",
     "beautify-benchmark": "github:ahwayakchih/beautify-benchmark",
     "benchmark": "^2.1.4",
-    "c8": "^5.0.4",
-    "docdash": "^1.1.1",
-    "eslint": "^6.4.0",
-    "jsdoc": "^3.6.3",
-    "neo-async": "^2.6.1",
+    "c8": "^7.4.0",
+    "docdash": "^1.2.0",
+    "eslint": "^7.18.0",
+    "jsdoc": "^3.6.6",
+    "neo-async": "^2.6.2",
     "tap-diff": "^0.1.1",
-    "tape": "^4.11.0",
+    "tape": "^5.1.1",
     "tape-catch": "^1.0.6"
   },
   "homepage": "https://github.com/ahwayakchih/waitron",
